@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Trash2, Download, Share2 } from "lucide-react"
-import type { Subscription } from "@/app/page"
+import { monthlyCost, type Subscription } from "@/lib/subscriptions"
 import { useToast } from "@/hooks/use-toast"
 
 interface DashboardProps {
@@ -155,7 +155,7 @@ ${subscriptions
         <CardContent>
           <div className="space-y-3">
             {subscriptions.map((subscription) => {
-              const monthlyCost = subscription.billingCycle === "yearly" ? subscription.cost / 12 : subscription.cost
+              const monthly = monthlyCost(subscription)
 
               return (
                 <div
@@ -168,14 +168,14 @@ ${subscriptions
                       <div className="font-medium">{subscription.name}</div>
                       <div className="text-sm text-muted-foreground">
                         ${subscription.cost.toFixed(2)}/{subscription.billingCycle}
-                        {subscription.billingCycle === "yearly" && ` (${monthlyCost.toFixed(2)}/month)`}
+                        {subscription.billingCycle === "yearly" && ` (${monthly.toFixed(2)}/month)`}
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <Badge variant="secondary">{subscription.category}</Badge>
-                    <div className="font-semibold">${monthlyCost.toFixed(2)}/mo</div>
+                    <div className="font-semibold">${monthly.toFixed(2)}/mo</div>
                     <Button
                       variant="ghost"
                       size="sm"

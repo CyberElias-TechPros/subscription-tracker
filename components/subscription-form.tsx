@@ -8,24 +8,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { Subscription } from "@/app/page"
+import { categoryColors, categories, type Subscription, type Category } from "@/lib/subscriptions"
 
 interface SubscriptionFormProps {
   onSubmit: (subscription: Omit<Subscription, "id">) => void
   onCancel: () => void
-}
-
-const categories = ["Streaming", "Music", "Software", "Gaming", "News", "Fitness", "Food", "Other"]
-
-const categoryColors = {
-  Streaming: "#ef4444",
-  Music: "#8b5cf6",
-  Software: "#3b82f6",
-  Gaming: "#10b981",
-  News: "#f59e0b",
-  Fitness: "#ec4899",
-  Food: "#f97316",
-  Other: "#6b7280",
 }
 
 export function SubscriptionForm({ onSubmit, onCancel }: SubscriptionFormProps) {
@@ -36,18 +23,22 @@ export function SubscriptionForm({ onSubmit, onCancel }: SubscriptionFormProps) 
     category: "",
   })
 
+  const [error, setError] = useState("")
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (!formData.name || !formData.cost || !formData.category) {
-      return
-    }
+    const name = formData.name.trim()
+    const cost = Number.parseFloat(formData.cost)
+    if (!name || name.length > 80) return setError("Enter a service name up to 80 characters.")
+    if (!Number.isFinite(cost) || cost <= 0 || cost > 1000000) return setError("Enter a valid cost greater than zero.")
+    if (!formData.category) return setError("Choose a category.")
+    setError("")
 
     onSubmit({
-      name: formData.name,
-      cost: Number.parseFloat(formData.cost),
+      name,
+      cost,
       billingCycle: formData.billingCycle,
-      category: formData.category,
+      category: formData.category as Category,
       color: categoryColors[formData.category as keyof typeof categoryColors],
     })
 
@@ -61,6 +52,7 @@ export function SubscriptionForm({ onSubmit, onCancel }: SubscriptionFormProps) 
 
   return (
     <Card>
+      {error && <p role="alert" className="px-6 pt-4 text-sm text-destructive">{error}</p>}
       <CardHeader>
         <CardTitle>Add New Subscription</CardTitle>
         <CardDescription>Enter your subscription details to track your spending</CardDescription>

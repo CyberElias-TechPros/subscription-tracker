@@ -2,19 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { SubscriptionForm } from "@/components/subscription-form"
+import { parseSubscriptions, STORAGE_KEY, type Subscription } from "@/lib/subscriptions"
 import { Dashboard } from "@/components/dashboard"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PlusCircle, Calculator } from "lucide-react"
-
-export interface Subscription {
-  id: string
-  name: string
-  cost: number
-  billingCycle: "monthly" | "yearly"
-  category: string
-  color: string
-}
 
 export default function Home() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
@@ -23,17 +15,14 @@ export default function Home() {
 
   // Load subscriptions from localStorage on mount
   useEffect(() => {
-    const saved = localStorage.getItem("subscriptions")
-    if (saved) {
-      setSubscriptions(JSON.parse(saved))
-    }
+    setSubscriptions(parseSubscriptions(localStorage.getItem(STORAGE_KEY)))
     setIsLoaded(true)
   }, [])
 
   // Save to localStorage whenever subscriptions change
   useEffect(() => {
     if (isLoaded) {
-      localStorage.setItem("subscriptions", JSON.stringify(subscriptions))
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(subscriptions)) } catch { /* Storage may be unavailable or full; UI remains usable. */ }
     }
   }, [subscriptions, isLoaded])
 

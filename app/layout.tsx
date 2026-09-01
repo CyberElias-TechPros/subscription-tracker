@@ -4,9 +4,9 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'Subscription Tracker | Understand your recurring spending',
+  description: 'A private, local-first subscription tracker for monthly and yearly costs.',
+  generator: 'Next.js',
 }
 
 export default function RootLayout({
