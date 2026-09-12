@@ -1,139 +1,98 @@
-"use client"
+import { TrackerApp } from "@/components/tracker-app"
+import { FAQ, FAQ_ITEMS } from "@/components/faq"
+import { SITE_NAME, SITE_URL } from "@/lib/site"
 
-import { useState, useEffect } from "react"
-import { SubscriptionForm } from "@/components/subscription-form"
-import { Dashboard } from "@/components/dashboard"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { PlusCircle, Calculator } from "lucide-react"
-
-export interface Subscription {
-  id: string
-  name: string
-  cost: number
-  billingCycle: "monthly" | "yearly"
-  category: string
-  color: string
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      name: SITE_NAME,
+      url: SITE_URL,
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Any (web browser)",
+      description:
+        "Free, private, local-first subscription tracker. See your true monthly spend, upcoming payments and yearly total — your data never leaves your browser.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      featureList: [
+        "Track weekly, monthly, quarterly and yearly subscriptions",
+        "True monthly and yearly spend totals",
+        "Upcoming payments for the next 30 days",
+        "12-month payment forecast",
+        "Category breakdown with charts",
+        "CSV and JSON export",
+        "100% local, private data storage",
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: FAQ_ITEMS.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: item.a },
+      })),
+    },
+  ],
 }
 
-export default function Home() {
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
-  const [showForm, setShowForm] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  // Load subscriptions from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("subscriptions")
-    if (saved) {
-      setSubscriptions(JSON.parse(saved))
-    }
-    setIsLoaded(true)
-  }, [])
-
-  // Save to localStorage whenever subscriptions change
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("subscriptions", JSON.stringify(subscriptions))
-    }
-  }, [subscriptions, isLoaded])
-
-  const addSubscription = (subscription: Omit<Subscription, "id">) => {
-    const newSubscription = {
-      ...subscription,
-      id: Date.now().toString(),
-    }
-    setSubscriptions((prev) => [...prev, newSubscription])
-    setShowForm(false)
-  }
-
-  const deleteSubscription = (id: string) => {
-    setSubscriptions((prev) => prev.filter((sub) => sub.id !== id))
-  }
-
-  const totalMonthly = subscriptions.reduce((total, sub) => {
-    return total + (sub.billingCycle === "yearly" ? sub.cost / 12 : sub.cost)
-  }, 0)
-
-  if (!isLoaded) {
-    return <div className="min-h-screen bg-background" />
-  }
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Calculator className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Subscription Tracker
-            </h1>
-          </div>
-          <p className="text-muted-foreground text-lg">Discover how much you're really spending on subscriptions</p>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+
+      {/* Hero — server-rendered for instant paint + SEO. */}
+      <section className="relative overflow-hidden">
+        <div className="aurora" aria-hidden="true" />
+        <div
+          className="bg-graph absolute inset-0 [mask-image:radial-gradient(ellipse_75%_65%_at_50%_0%,black,transparent)]"
+          aria-hidden="true"
+        />
+
+        <div className="relative mx-auto w-full max-w-6xl px-4 pb-10 pt-14 text-center sm:px-6 sm:pt-20">
+          <p className="font-num animate-rise inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/60 px-3.5 py-1.5 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-muted-foreground backdrop-blur">
+            <span className="size-1.5 rounded-full bg-accent" aria-hidden="true" />
+            Free · Private · Local-first
+          </p>
+
+          <h1 className="animate-rise mx-auto mt-6 max-w-3xl text-balance text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl" style={{ animationDelay: "70ms" }}>
+            Know what your subscriptions{" "}
+            <span className="relative inline-block text-accent">
+              really&nbsp;cost
+              <svg
+                className="absolute -bottom-1.5 left-0 w-full"
+                viewBox="0 0 200 9"
+                fill="none"
+                aria-hidden="true"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M2 7C40 2 80 2 120 5c30 2 55 1 78-2"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  opacity="0.5"
+                />
+              </svg>
+            </span>
+            .
+          </h1>
+
+          <p className="animate-rise mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg" style={{ animationDelay: "140ms" }}>
+            Add your recurring bills once and see the true monthly total, what’s due next, and the
+            honest yearly number. No account, no cloud — your data stays in this browser.
+          </p>
         </div>
 
-        {subscriptions.length === 0 && !showForm ? (
-          // Empty state
-          <Card className="text-center py-12">
-            <CardHeader>
-              <CardTitle className="text-2xl">No subscriptions yet</CardTitle>
-              <CardDescription className="text-lg">
-                Add your first subscription to see your monthly spending
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button onClick={() => setShowForm(true)} size="lg" className="gap-2">
-                <PlusCircle className="h-5 w-5" />
-                Add Your First Subscription
-              </Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <>
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold text-primary">${totalMonthly.toFixed(2)}</div>
-                  <p className="text-sm text-muted-foreground">Monthly Total</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold text-primary">${(totalMonthly * 12).toFixed(2)}</div>
-                  <p className="text-sm text-muted-foreground">Yearly Total</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-2xl font-bold text-primary">{subscriptions.length}</div>
-                  <p className="text-sm text-muted-foreground">Active Subscriptions</p>
-                </CardContent>
-              </Card>
-            </div>
+        {/* The application itself (client island, SSR-rendered shell). */}
+        <div id="tracker" className="relative mx-auto w-full max-w-6xl scroll-mt-20 px-4 pb-6 sm:px-6">
+          <TrackerApp />
+        </div>
+      </section>
 
-            {/* Add Subscription Button */}
-            <div className="flex justify-center mb-8">
-              <Button onClick={() => setShowForm(true)} className="gap-2" variant={showForm ? "outline" : "default"}>
-                <PlusCircle className="h-4 w-4" />
-                {showForm ? "Cancel" : "Add Subscription"}
-              </Button>
-            </div>
-
-            {/* Subscription Form */}
-            {showForm && (
-              <div className="mb-8">
-                <SubscriptionForm onSubmit={addSubscription} onCancel={() => setShowForm(false)} />
-              </div>
-            )}
-
-            {/* Dashboard */}
-            {subscriptions.length > 0 && (
-              <Dashboard subscriptions={subscriptions} onDelete={deleteSubscription} totalMonthly={totalMonthly} />
-            )}
-          </>
-        )}
-      </div>
-    </div>
+      <FAQ />
+    </>
   )
 }
