@@ -15,130 +15,122 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0e181b",
-          padding: "64px 72px",
+          background: "#0a1214",
+          padding: "56px 64px",
           fontFamily: "sans-serif",
           color: "#e8ece9",
+          position: "relative",
         }}
       >
-        {/* Wordmark row */}
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+        {/* Ambient */}
+        <div
+          style={{
+            position: "absolute",
+            top: -100,
+            right: -100,
+            width: 600,
+            height: 600,
+            background: "radial-gradient(circle, rgba(16,185,129,0.15), transparent 70%)",
+            borderRadius: 9999,
+          }}
+        />
+
+        <div style={{ display: "flex", alignItems: "center", gap: 16, position: "relative" }}>
           <div
             style={{
-              width: 56,
-              height: 56,
-              borderRadius: 16,
-              background: "#e8ece9",
+              width: 48,
+              height: 48,
+              borderRadius: 12,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.1)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              fontSize: 24,
+              fontWeight: 800,
             }}
           >
-            <div
-              style={{
-                width: 30,
-                height: 38,
-                background: "#0e181b",
-                borderRadius: 4,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                gap: 6,
-                paddingLeft: 6,
-                paddingRight: 6,
-              }}
-            >
-              <div style={{ width: 18, height: 3, background: "#0e181b", opacity: 0.45, borderRadius: 2 }} />
-              <div style={{ width: 18, height: 3, background: "#0e181b", opacity: 0.45, borderRadius: 2 }} />
-              <div style={{ width: 10, height: 3, background: "#57e6b4", borderRadius: 2 }} />
-            </div>
+            S
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: "-0.5px" }}>
-              Subscription Tracker
-            </span>
-            <span style={{ fontSize: 18, color: "#8fa3a0" }}>Free · Private · Local-first</span>
+            <span style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.5px", color: "white" }}>Subscription Tracker</span>
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Obsidian Ledger · Cloud Sync</span>
+          </div>
+          <div
+            style={{
+              marginLeft: "auto",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              background: "rgba(16,185,129,0.12)",
+              border: "1px solid rgba(16,185,129,0.2)",
+              borderRadius: 9999,
+              padding: "6px 12px",
+              fontSize: 12,
+              color: "rgba(167,243,208,0.9)",
+            }}
+          >
+            <div style={{ width: 6, height: 6, borderRadius: 9999, background: "#6ee7b7" }} />
+            Synced to edge
           </div>
         </div>
 
-        {/* Receipt card */}
-        <div
-          style={{
-            display: "flex",
-            gap: 56,
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              flex: 1,
-            }}
-          >
-            <span style={{ fontSize: 62, fontWeight: 700, lineHeight: 1.1, letterSpacing: "-1.5px" }}>
-              Know what your subscriptions really cost.
+        <div style={{ display: "flex", gap: 48, alignItems: "center", position: "relative" }}>
+          <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+            <span style={{ fontSize: 56, fontWeight: 800, lineHeight: 0.95, letterSpacing: "-1.8px", color: "white" }}>
+              Know what your
+              <br />
+              <span style={{ background: "linear-gradient(to bottom right, #a7f3d0, #5eead4)", backgroundClip: "text", color: "transparent" }}>
+                subscriptions
+              </span>
+              <br />
+              really cost.
             </span>
-            <span style={{ fontSize: 26, color: "#8fa3a0", marginTop: 18, lineHeight: 1.4 }}>
-              True monthly spend, upcoming payments and the honest yearly number — stored only in
-              your browser.
+            <span style={{ fontSize: 20, color: "rgba(255,255,255,0.45)", marginTop: 16, lineHeight: 1.4 }}>
+              True monthly spend, 12-month cash-flow, and your year as a receipt. Private by default, cloud sync when you want it.
             </span>
           </div>
 
           <div
             style={{
-              width: 330,
-              background: "#f5f2ea",
+              width: 340,
+              background: "#fdfcfa",
               color: "#17211f",
-              borderRadius: 10,
-              padding: "28px 26px",
+              borderRadius: 6,
+              padding: "24px 22px",
               display: "flex",
               flexDirection: "column",
-              gap: 14,
-              transform: "rotate(2deg)",
-              boxShadow: "0 24px 60px rgba(0,0,0,0.45)",
+              gap: 12,
+              transform: "rotate(1.5deg)",
+              boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 19 }}>
-              <span>Netflix</span>
-              <span style={{ fontWeight: 600 }}>$17.99</span>
+            <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(0,0,0,0.4)", textAlign: "center" }}>Your year in subscriptions</div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, borderBottom: "1px dashed rgba(0,0,0,0.1)", paddingBottom: 8 }}>
+              <span>Streaming</span>
+              <span style={{ fontWeight: 700 }}>$33.98/mo</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 19 }}>
-              <span>ChatGPT Plus</span>
-              <span style={{ fontWeight: 600 }}>$20.00</span>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15 }}>
+              <span>AI Tools</span>
+              <span style={{ fontWeight: 700 }}>$45.00/mo</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 19 }}>
-              <span>Spotify Duo</span>
-              <span style={{ fontWeight: 600 }}>$16.99</span>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15 }}>
+              <span>Software</span>
+              <span style={{ fontWeight: 700 }}>$64.99/mo</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 19 }}>
-              <span>iCloud+</span>
-              <span style={{ fontWeight: 600 }}>$9.99</span>
-            </div>
-            <div style={{ borderTop: "2px dashed #17211f55", paddingTop: 14, display: "flex", justifyContent: "space-between", fontSize: 18, color: "#5c6a67" }}>
-              <div style={{ display: "flex" }}>
-                <span>PER YEAR</span>
-                <span style={{ fontWeight: 700, color: "#0da678" }}>$775.08</span>
-              </div>
+            <div style={{ borderTop: "1px solid rgba(0,0,0,0.08)", marginTop: 8, paddingTop: 12, display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <span style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(0,0,0,0.35)" }}>Total per year</span>
+              <span style={{ fontSize: 32, fontWeight: 800, letterSpacing: "-0.02em" }}>$2,214</span>
             </div>
           </div>
         </div>
 
-        {/* Footer strip */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            fontSize: 20,
-            color: "#8fa3a0",
-          }}
-        >
-          <span>v0-subscription-tracker.vercel.app</span>
-          <span style={{ color: "#57e6b4", fontWeight: 600 }}>No account · No tracking · No server</span>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 13, color: "rgba(255,255,255,0.35)", position: "relative" }}>
+          <span>Free · Private · Open source</span>
+          <span style={{ color: "rgba(167,243,208,0.7)", fontWeight: 600 }}>Vercel + Cloudflare Workers + D1</span>
         </div>
       </div>
     ),
-    size,
+    size
   )
 }

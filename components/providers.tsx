@@ -3,11 +3,12 @@
 import * as React from "react"
 import { ThemeProvider, useTheme } from "next-themes"
 import { Toaster } from "sonner"
+import { AuthProvider } from "@/hooks/use-auth"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      {children}
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+      <AuthProvider>{children}</AuthProvider>
     </ThemeProvider>
   )
 }
@@ -22,7 +23,7 @@ export function AppToaster() {
       closeButton
       toastOptions={{
         classNames: {
-          toast: "!rounded-xl !border !border-border !bg-popover !text-popover-foreground !shadow-lg",
+          toast: "!rounded-[14px] !border !border-white/10 !bg-[#111d1f]/90 !backdrop-blur-xl !text-white !shadow-2xl",
         },
       }}
     />
