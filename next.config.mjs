@@ -11,9 +11,13 @@ const nextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
         ],
       },
     ]
+  },
+  experimental: {
+    optimizePackageImports: ["framer-motion", "lucide-react"],
   },
 }
 

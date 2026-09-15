@@ -6,6 +6,7 @@ import { Providers, AppToaster } from "@/components/providers"
 import { TrackerProvider } from "@/components/tracker-provider"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { CursorGlow } from "@/components/cursor-glow"
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site"
 
 export const metadata: Metadata = {
@@ -23,6 +24,9 @@ export const metadata: Metadata = {
     "monthly spending calculator",
     "track subscriptions free",
     "bills tracker",
+    "cloud sync",
+    "private finance",
+    "edge database",
   ],
   alternates: { canonical: "./" },
   openGraph: {
@@ -50,7 +54,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#faf8f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#0e181b" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a1214" },
   ],
 }
 
@@ -58,19 +62,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
-    >
-      <body className="min-h-dvh">
+    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable} dark`}>
+      <body className="min-h-dvh bg-[#0a1214] text-white antialiased selection:bg-emerald-400/20">
         <a href="#main" className="skip-link">
           Skip to content
         </a>
         <Providers>
           <TrackerProvider>
+            <CursorGlow />
             <SiteHeader />
-            <main id="main">{children}</main>
+            <main id="main" className="relative">{children}</main>
             <SiteFooter />
             <AppToaster />
           </TrackerProvider>
