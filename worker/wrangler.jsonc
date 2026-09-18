@@ -15,9 +15,9 @@
     {
       "binding": "DB",
       "database_name": "subscription-tracker-db",
-      "database_id": "subscription-tracker-db-local",
+      "database_id": "ef6b3291-da0b-48cf-b223-603820f59a7d",
       "migrations_dir": "migrations",
-      "preview_database_id": "subscription-tracker-db-local"
+      "preview_database_id": "ef6b3291-da0b-48cf-b223-603820f59a7d"
     }
   ],
   "r2_buckets": [
@@ -29,8 +29,8 @@
   "kv_namespaces": [
     {
       "binding": "CACHE",
-      "id": "local-cache-id-placeholder",
-      "preview_id": "local-cache-id-placeholder"
+      "id": "64a07dbe361a451fa0070b3d1c1b58c2",
+      "preview_id": "64a07dbe361a451fa0070b3d1c1b58c2"
     }
   ]
 }
