@@ -1,7 +1,8 @@
 -- Subscription Tracker D1 Schema
 -- Initial migration
-
-PRAGMA journal_mode=WAL;
+--
+-- Note: D1 rejects PRAGMA statements (SQLITE_AUTH), so the journal mode is
+-- left at D1's default instead of being forced to WAL here.
 
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
