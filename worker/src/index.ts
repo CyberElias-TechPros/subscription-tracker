@@ -62,8 +62,8 @@ app.get('/api/export', async (c) => {
   const format = url.searchParams.get('format') || 'json';
 
   // We'll handle here directly to avoid duplication
-  const { verifyJwt } = await import('./lib/auth');
-  const secret = c.env.JWT_SECRET || 'dev-secret-change-in-production-please-use-long-random-string';
+  const { verifyJwt, requireJwtSecret } = await import('./lib/auth');
+  const secret = requireJwtSecret(c.env.JWT_SECRET);
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
   const payload = await verifyJwt(token, secret);
   if (!payload) return c.json({ error: 'Invalid token' }, 401);

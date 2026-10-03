@@ -1,5 +1,5 @@
 import type { Context, Next } from 'hono';
-import { verifyJwt } from '../lib/auth';
+import { verifyJwt, requireJwtSecret } from '../lib/auth';
 import type { Env, JwtPayload } from '../lib/types';
 import { getUserById } from '../lib/db';
 
@@ -10,7 +10,7 @@ export async function authMiddleware(c: Context<{ Bindings: Env; Variables: { us
   }
 
   const token = authHeader.slice(7);
-  const secret = c.env.JWT_SECRET || 'dev-secret-change-in-production-please-use-long-random-string';
+  const secret = requireJwtSecret(c.env.JWT_SECRET);
 
   const payload = await verifyJwt(token, secret);
   if (!payload) {
@@ -32,7 +32,7 @@ export async function optionalAuthMiddleware(c: Context<{ Bindings: Env; Variabl
   const authHeader = c.req.header('Authorization');
   if (authHeader && authHeader.startsWith('Bearer ')) {
     const token = authHeader.slice(7);
-    const secret = c.env.JWT_SECRET || 'dev-secret-change-in-production-please-use-long-random-string';
+    const secret = requireJwtSecret(c.env.JWT_SECRET);
     const payload = await verifyJwt(token, secret);
     if (payload) {
       try {

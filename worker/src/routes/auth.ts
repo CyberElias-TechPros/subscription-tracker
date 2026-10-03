@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
 import type { Env } from '../lib/types';
-import { hashPassword, verifyPassword, signJwt, generateId } from '../lib/auth';
+import { hashPassword, verifyPassword, signJwt, generateId, requireJwtSecret } from '../lib/auth';
 import { getUserByEmail, createUser, getUserById } from '../lib/db';
 import { registerSchema, loginSchema } from '../lib/validation';
 
@@ -47,7 +47,7 @@ auth.post('/register', async (c) => {
 
   await createUser(c.env.DB, user);
 
-  const secret = c.env.JWT_SECRET || 'dev-secret-change-in-production-please-use-long-random-string';
+  const secret = requireJwtSecret(c.env.JWT_SECRET);
   const token = await signJwt({ sub: id, email }, secret);
 
   return c.json({
@@ -87,7 +87,7 @@ auth.post('/login', async (c) => {
     return c.json({ error: 'Invalid credentials' }, 401);
   }
 
-  const secret = c.env.JWT_SECRET || 'dev-secret-change-in-production-please-use-long-random-string';
+  const secret = requireJwtSecret(c.env.JWT_SECRET);
   const token = await signJwt({ sub: user.id, email: user.email }, secret);
 
   return c.json({
@@ -108,7 +108,7 @@ auth.get('/me', async (c) => {
     return c.json({ error: 'Unauthorized' }, 401);
   }
   const token = authHeader.slice(7);
-  const secret = c.env.JWT_SECRET || 'dev-secret-change-in-production-please-use-long-random-string';
+  const secret = requireJwtSecret(c.env.JWT_SECRET);
   const { verifyJwt } = await import('../lib/auth');
   const payload = await verifyJwt(token, secret);
   if (!payload) return c.json({ error: 'Invalid token' }, 401);

@@ -25,6 +25,13 @@ function base64UrlDecode(str: string): string {
   return atob(str);
 }
 
+export function requireJwtSecret(secret: string | undefined): string {
+  if (!secret) {
+    throw new Error('JWT_SECRET is not configured. Set it with `npx wrangler secret put JWT_SECRET`.');
+  }
+  return secret;
+}
+
 export async function signJwt(payload: object, secret: string, expiresInSec: number = 60 * 60 * 24 * 7): Promise<string> {
   const header = { alg: 'HS256', typ: 'JWT' };
   const now = Math.floor(Date.now() / 1000);
