@@ -34,18 +34,15 @@ export function SpendDonut({
     return seg;
   });
 
-  const hoveredTotal = hovered ? totals.find(t => t.category.id === hovered) : null;
+  const hoveredTotal = hovered ? totals.find((t) => t.category.id === hovered) : null;
 
   return (
     <div className="flex flex-col items-center gap-8 sm:flex-row sm:items-start sm:gap-10">
       <div className="relative mx-auto size-[180px] shrink-0 sm:mx-0">
-        {/* Glow */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400/10 to-teal-400/10 blur-2xl" />
-        
         <div className="relative size-full">
           <svg viewBox="0 0 40 40" className="size-full -rotate-90">
             {/* Track */}
-            <circle cx="20" cy="20" r={R} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4.5" />
+            <circle cx="20" cy="20" r={R} fill="none" stroke="var(--border)" strokeWidth="4.5" />
             {/* Segments */}
             {segments.map((seg) => {
               const isHovered = hovered === seg.category.id;
@@ -63,10 +60,9 @@ export function SpendDonut({
                   strokeDashoffset={(-seg.offset / 100) * C}
                   initial={{ strokeDasharray: `0 ${C}` }}
                   animate={{ strokeDasharray: `${(seg.length / 100) * C} ${C}` }}
-                  transition={{ duration: 1.2, delay: totals.indexOf(seg) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 1.1, delay: totals.indexOf(seg) * 0.07, ease: [0.22, 1, 0.36, 1] }}
                   style={{
-                    filter: isHovered ? `drop-shadow(0 0 8px ${seg.category.color}80)` : undefined,
-                    opacity: hovered && !isHovered ? 0.4 : 1,
+                    opacity: hovered && !isHovered ? 0.35 : 1,
                   }}
                   className="cursor-pointer transition-all duration-300"
                   onMouseEnter={() => setHovered(seg.category.id)}
@@ -79,19 +75,21 @@ export function SpendDonut({
           {/* Center */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: 0.45, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="text-center"
             >
-              <span className="font-num block text-[22px] font-bold leading-none tracking-tight text-white">
-                {hoveredTotal ? formatMoney(hoveredTotal.monthly, currency) : formatMoney(monthly, currency, { maximumFractionDigits: 0 })}
+              <span className="font-num block text-[21px] font-bold leading-none tracking-tight text-foreground">
+                {hoveredTotal
+                  ? formatMoney(hoveredTotal.monthly, currency)
+                  : formatMoney(monthly, currency, { maximumFractionDigits: 0 })}
               </span>
-              <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
+              <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                 {hoveredTotal ? hoveredTotal.category.label : "per month"}
               </span>
               {hoveredTotal && (
-                <span className="mt-0.5 block font-num text-[11px] text-white/30">
+                <span className="font-num mt-0.5 block text-[11px] text-muted-foreground/70">
                   {Math.round(hoveredTotal.share * 100)}% of total
                 </span>
               )}
@@ -100,47 +98,47 @@ export function SpendDonut({
         </div>
       </div>
 
-      {/* Legend — premium list */}
+      {/* Legend */}
       <ul className="w-full space-y-1">
         {totals.map((t, i) => {
           const isHovered = hovered === t.category.id;
           return (
             <motion.li
               key={t.category.id}
-              initial={{ opacity: 0, x: 10 }}
+              initial={{ opacity: 0, x: 8 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 + i * 0.06, duration: 0.5 }}
+              transition={{ delay: 0.3 + i * 0.05, duration: 0.5 }}
               onMouseEnter={() => setHovered(t.category.id)}
               onMouseLeave={() => setHovered(null)}
-              className={`group flex cursor-pointer items-center justify-between gap-3 rounded-[12px] border px-3 py-2.5 text-sm transition-all duration-200 ${
+              className={`flex cursor-pointer items-center justify-between gap-3 rounded-lg border px-3 py-2.5 text-sm transition-colors duration-200 ${
                 isHovered
-                  ? "border-white/15 bg-white/[0.06] shadow-[0_0_20px_rgba(255,255,255,0.04)]"
-                  : "border-transparent hover:border-white/10 hover:bg-white/[0.03]"
+                  ? "border-border bg-surface-2"
+                  : "border-transparent hover:border-border hover:bg-surface-2/60"
               }`}
             >
               <span className="flex min-w-0 items-center gap-3">
-                <span className="relative">
-                  <span
-                    aria-hidden="true"
-                    className="block size-2.5 rounded-full transition-transform group-hover:scale-110"
-                    style={{ backgroundColor: t.category.color, boxShadow: `0 0 10px ${t.category.color}60` }}
-                  />
-                  {isHovered && (
-                    <span
-                      className="absolute inset-0 animate-ping rounded-full opacity-40"
-                      style={{ backgroundColor: t.category.color }}
-                    />
-                  )}
-                </span>
-                <span className={`truncate font-medium transition-colors ${isHovered ? "text-white" : "text-white/70 group-hover:text-white/90"}`}>
+                <span
+                  aria-hidden="true"
+                  className="block size-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: t.category.color }}
+                />
+                <span
+                  className={`truncate font-medium transition-colors ${
+                    isHovered ? "text-foreground" : "text-foreground/75"
+                  }`}
+                >
                   {t.category.label}
                 </span>
               </span>
               <span className="flex shrink-0 items-center gap-2.5">
-                <span className={`font-num text-[13px] font-medium transition-colors ${isHovered ? "text-white" : "text-white/50 group-hover:text-white/70"}`}>
+                <span
+                  className={`font-num text-[13px] font-medium transition-colors ${
+                    isHovered ? "text-foreground" : "text-muted-foreground"
+                  }`}
+                >
                   {formatMoney(t.monthly, currency)}
                 </span>
-                <span className="rounded-full bg-white/10 px-1.5 py-0.5 font-num text-[10px] font-medium text-white/40">
+                <span className="rounded-full border border-border bg-surface-2 px-1.5 py-0.5 font-num text-[10px] font-medium text-muted-foreground">
                   {Math.round(t.share * 100)}%
                 </span>
               </span>

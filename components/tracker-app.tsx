@@ -19,7 +19,7 @@ import { SITE_URL } from "@/lib/site";
 import { motion } from "framer-motion";
 
 export function TrackerApp() {
-  const { state, openAdd, openSettings, openAuth, currency, anyOverlayOpen, isAuthenticated, syncLocalToCloud } = useTracker();
+  const { state, openAdd, openSettings, openAuth, currency, anyOverlayOpen, isAuthenticated } = useTracker();
 
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -46,33 +46,33 @@ export function TrackerApp() {
 
   return (
     <div className="space-y-6 sm:space-y-8">
-      {/* Action row — premium */}
+      {/* Action row */}
       <div className="flex flex-wrap items-center gap-2.5" data-print="hide">
-        <Button onClick={openAdd} size="lg" className="group h-11 rounded-full bg-white px-6 text-[14px] font-semibold text-black shadow-lg transition-all hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98]">
+        <Button onClick={openAdd} size="lg" className="group rounded-full">
           <Plus className="size-4 transition-transform group-hover:rotate-90 duration-300" />
           Add subscription
         </Button>
         <ShareButton />
         <div className="ml-auto flex items-center gap-2">
           {state.isSyncing && (
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5">
-              <Loader2 className="size-3.5 animate-spin text-white/40" />
-              <span className="text-[11px] text-white/50">Syncing…</span>
+            <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-xs">
+              <Loader2 className="size-3.5 animate-spin text-muted-foreground" />
+              <span className="text-[11px] text-muted-foreground">Syncing…</span>
             </div>
           )}
           {!isAuthenticated && state.data.subscriptions.length > 0 && (
-            <Button variant="ghost" size="sm" onClick={() => openAuth("register")} className="h-11 rounded-full border border-amber-400/20 bg-amber-400/10 px-4 text-amber-200/80 hover:bg-amber-400/15 hover:text-amber-100">
+            <Button variant="outline" size="lg" onClick={() => openAuth("register")} className="rounded-full">
               <CloudOff className="size-4" />
               Sync to cloud
             </Button>
           )}
           {isAuthenticated && (
-            <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5">
-              <Cloud className="size-3.5 text-emerald-300" />
-              <span className="text-[11px] font-medium text-emerald-200/70">Synced to edge</span>
+            <div className="hidden items-center gap-1.5 rounded-full border border-accent/20 bg-accent-soft px-3 py-1.5 sm:flex">
+              <Cloud className="size-3.5 text-accent" />
+              <span className="text-[11px] font-medium text-accent">Synced to edge</span>
             </div>
           )}
-          <Button variant="ghost" size="lg" onClick={openSettings} className="h-11 rounded-full border border-white/10 bg-white/[0.04] text-white/70 hover:bg-white/[0.08] hover:text-white">
+          <Button variant="outline" size="lg" onClick={openSettings} className="rounded-full">
             <Settings2 className="size-4" />
             Settings
           </Button>
@@ -98,20 +98,24 @@ function DashboardBody({
       <StatsConsole stats={stats} currency={currency} />
 
       <div className="grid gap-6 sm:gap-8 lg:grid-cols-12">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.7 }} className="lg:col-span-5">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.7 }}
+          className="lg:col-span-5"
+        >
           <ReceiptCard stats={stats} currency={currency} />
         </motion.div>
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.7 }}
           aria-label="Next twelve months of payments"
-          className="relative overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#121f22]/60 p-6 backdrop-blur-2xl sm:p-8 lg:col-span-7"
+          className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8 lg:col-span-7"
         >
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent" />
           <div className="relative">
-            <h2 className="text-[16px] font-semibold tracking-tight text-white">The next 12 months</h2>
-            <p className="mt-1 text-[13px] text-white/40">When the money actually leaves your account.</p>
+            <h2 className="font-display text-[22px] text-foreground">The next 12 months</h2>
+            <p className="mt-1 text-[13px] text-muted-foreground">When the money actually leaves your account.</p>
             <div className="mt-6">
               <HorizonChart subscriptions={subscriptions} currency={currency} />
             </div>
@@ -121,16 +125,15 @@ function DashboardBody({
 
       <div className="grid gap-6 sm:gap-8 lg:grid-cols-12">
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.7 }}
           aria-label="Spending by category"
-          className="relative overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#121f22]/60 p-6 backdrop-blur-2xl sm:p-8 lg:col-span-5"
+          className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8 lg:col-span-5"
         >
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent" />
           <div className="relative">
-            <h2 className="text-[16px] font-semibold tracking-tight text-white">Where it goes</h2>
-            <p className="mt-1 text-[13px] text-white/40">Monthly equivalent, by category.</p>
+            <h2 className="font-display text-[22px] text-foreground">Where it goes</h2>
+            <p className="mt-1 text-[13px] text-muted-foreground">Monthly equivalent, by category.</p>
             <div className="mt-6">
               <SpendDonut totals={stats.categoryTotals} currency={currency} monthly={stats.monthly} />
             </div>
@@ -138,21 +141,23 @@ function DashboardBody({
         </motion.section>
 
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.7 }}
           aria-label="Upcoming payments"
-          className="relative overflow-hidden rounded-[20px] border border-white/[0.08] bg-[#121f22]/60 p-6 backdrop-blur-2xl sm:p-8 lg:col-span-7"
+          className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8 lg:col-span-7"
         >
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent" />
           <div className="relative">
             <div className="flex items-baseline justify-between gap-3">
               <div>
-                <h2 className="text-[16px] font-semibold tracking-tight text-white">Due soon</h2>
-                <p className="mt-1 text-[13px] text-white/40">Payments in the next 30 days.</p>
+                <h2 className="font-display text-[22px] text-foreground">Due soon</h2>
+                <p className="mt-1 text-[13px] text-muted-foreground">Payments in the next 30 days.</p>
               </div>
-              <p className="font-num text-[13px] text-white/30">
-                <span className="text-[16px] font-semibold text-white">{new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(stats.upcomingTotal)}</span> total
+              <p className="font-num text-[13px] text-muted-foreground">
+                <span className="text-[16px] font-semibold text-foreground">
+                  {new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(stats.upcomingTotal)}
+                </span>{" "}
+                total
               </p>
             </div>
             <div className="mt-5">
@@ -190,10 +195,12 @@ function ShareButton() {
   };
 
   return (
-    <Button variant="outline" size="lg" onClick={onShare} loading={busy} className="h-11 rounded-full border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.08] hover:text-white">
+    <Button variant="outline" size="lg" onClick={onShare} loading={busy} className="rounded-full">
       <Share2 className="size-4" />
       Share my total
-      <span className="font-num ml-1 text-white/40">({new Intl.NumberFormat("en-US", { style: "currency", currency }).format(animatedMonthly)}/mo)</span>
+      <span className="font-num ml-1 text-muted-foreground">
+        ({new Intl.NumberFormat("en-US", { style: "currency", currency }).format(animatedMonthly)}/mo)
+      </span>
     </Button>
   );
 }
@@ -205,12 +212,12 @@ function TrackerSkeleton() {
         <div className="skeleton h-11 w-44 rounded-full" />
         <div className="skeleton h-11 w-40 rounded-full" />
       </div>
-      <div className="skeleton h-64 rounded-[20px]" />
+      <div className="skeleton h-64 rounded-2xl" />
       <div className="grid gap-6 sm:gap-8 lg:grid-cols-12">
-        <div className="skeleton h-96 rounded-[20px] lg:col-span-5" />
-        <div className="skeleton h-96 rounded-[20px] lg:col-span-7" />
+        <div className="skeleton h-96 rounded-2xl lg:col-span-5" />
+        <div className="skeleton h-96 rounded-2xl lg:col-span-7" />
       </div>
-      <div className="skeleton h-72 rounded-[20px]" />
+      <div className="skeleton h-72 rounded-2xl" />
       <span className="sr-only-x">Loading…</span>
     </div>
   );

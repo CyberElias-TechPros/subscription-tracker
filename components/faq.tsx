@@ -4,11 +4,11 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 export const FAQ_ITEMS = [
   {
     q: "Is my data really private?",
-    a: "Yes. By default everything is stored in your browser's local storage. When you create an account, data syncs encrypted to Cloudflare's edge (D1 + R2). No analytics on your financial data, no selling, no ads. You can export or delete everything in one click.",
+    a: "Yes. By default everything is stored in your browser's local storage. When you create an account, data syncs encrypted to the edge (D1 + R2). No analytics on your financial data, no selling, no ads. You can export or delete everything in one click.",
   },
   {
     q: "How does cloud sync work?",
-    a: "Create an account and your subscriptions sync automatically across devices via Cloudflare Workers + D1. Local-first still — if the API is unreachable, you keep working offline. Guest mode (no account) remains fully functional with local storage only.",
+    a: "Create an account and your subscriptions sync automatically across devices. Local-first still — if the API is unreachable, you keep working offline. Guest mode (no account) remains fully functional with local storage only.",
   },
   {
     q: "Which billing cycles are supported, and how are they compared?",
@@ -20,7 +20,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "Does it work offline? What does it cost?",
-    a: `It's free and works offline after first load. Guest mode has no account or server. With an account, you get cross-device sync via Cloudflare's global edge — still free. Visit ${SITE_URL.replace(/^https?:\/\//, "")} any time. Open source, MIT licensed.`,
+    a: `It's free and works offline after first load. Guest mode has no account or server. With an account, you get cross-device sync via the global edge — still free. Visit ${SITE_URL.replace(/^https?:\/\//, "")} any time. Open source, MIT licensed.`,
   },
   {
     q: "What stack powers this?",
@@ -30,42 +30,42 @@ export const FAQ_ITEMS = [
 
 export function FAQ() {
   return (
-    <section id="faq" aria-labelledby="faq-heading" className="relative mx-auto w-full max-w-[1280px] px-5 py-24 sm:px-8 sm:py-32">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-400/[0.04] blur-[100px]" />
-      </div>
-
+    <section id="faq" aria-labelledby="faq-heading" className="relative mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8 sm:py-32">
       <div className="relative grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-        <div className="lg:sticky lg:top-32 lg:self-start">
+        <div className="lg:sticky lg:top-28 lg:self-start">
           <ScrollReveal>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1">
-              <div className="size-1.5 rounded-full bg-emerald-300 animate-pulse" />
-              <span className="text-[11px] font-medium uppercase tracking-wide text-white/50">Questions, answered</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 shadow-xs">
+              <span className="size-1.5 rounded-full bg-accent" />
+              <span className="label-caps text-muted-foreground">Questions, answered</span>
             </div>
-            <h2 id="faq-heading" className="mt-6 text-balance text-[32px] font-semibold leading-[1.1] tracking-tight text-white sm:text-[40px]">
-              We built this for people who hate{" "}
-              <span className="bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent">surprise charges.</span>
+            <h2 id="faq-heading" className="font-display mt-6 text-[34px] text-foreground sm:text-[46px]">
+              Built for people who hate{" "}
+              <em className="text-accent">surprise charges.</em>
             </h2>
-            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/40">
-              The short version of everything people ask before trusting an app with their money. No marketing fluff, just how it works.
+            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+              The short version of everything people ask before trusting an app with their
+              money. No marketing fluff, just how it works.
             </p>
           </ScrollReveal>
         </div>
 
         <div className="space-y-3">
           {FAQ_ITEMS.map((item, i) => (
-            <ScrollReveal key={item.q} delay={i * 0.06}>
-              <details className="group rounded-[16px] border border-white/[0.06] bg-white/[0.02] p-1 backdrop-blur transition-all duration-300 open:border-white/10 open:bg-white/[0.04] hover:border-white/10 hover:bg-white/[0.03]">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[12px] px-5 py-4 text-[14px] font-medium text-white/80 transition-colors marker:hidden hover:text-white group-open:text-white [&::-webkit-details-marker]:hidden">
+            <ScrollReveal key={item.q} delay={i * 0.05}>
+              <details className="group rounded-xl border border-border bg-card p-1 shadow-xs transition-all duration-300 open:shadow-sm hover:border-border-strong">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-lg px-4 py-3.5 text-[14px] font-medium text-foreground marker:hidden hover:[&::-webkit-details-marker]:hidden [&::-webkit-details-marker]:hidden">
                   <span>{item.q}</span>
-                  <span aria-hidden="true" className="grid size-7 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.04] text-white/40 transition-all duration-300 group-open:rotate-45 group-open:bg-white group-open:text-black">
-                    <svg viewBox="0 0 12 12" className="size-3" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                  <span
+                    aria-hidden="true"
+                    className="grid size-6 shrink-0 place-items-center rounded-full border border-border bg-surface-2 text-muted-foreground transition-all duration-300 group-open:rotate-45 group-open:border-primary group-open:bg-primary group-open:text-primary-foreground"
+                  >
+                    <svg viewBox="0 0 12 12" className="size-2.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
                       <path d="M6 1.5v9M1.5 6h9" />
                     </svg>
                   </span>
                 </summary>
-                <div className="px-5 pb-4">
-                  <p className="text-[13px] leading-relaxed text-white/50">{item.a}</p>
+                <div className="px-4 pb-4">
+                  <p className="text-[13px] leading-relaxed text-muted-foreground">{item.a}</p>
                 </div>
               </details>
             </ScrollReveal>

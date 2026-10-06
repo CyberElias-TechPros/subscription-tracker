@@ -12,7 +12,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useTracker } from "@/components/tracker-provider";
 import { formatMoney } from "@/lib/format";
 import { CATEGORIES, CYCLES, CYCLE_LABELS, monthlyEquivalent, type Cycle, type Subscription } from "@/lib/subscriptions";
-import { motion } from "framer-motion";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "Give it a name").max(80, "80 characters max"),
@@ -79,30 +78,45 @@ export function SubscriptionDialog({ open, onOpenChange, editing }: { open: bool
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl overflow-hidden border-white/10 bg-[#121f22]/90 p-0 backdrop-blur-2xl">
-        <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-emerald-400/10 blur-[60px]" />
+      <DialogContent className="max-w-xl overflow-hidden p-0">
         <div className="relative p-6 sm:p-7">
           <DialogHeader className="text-left">
-            <DialogTitle className="text-[18px] font-semibold tracking-tight text-white">{isEdit ? `Edit ${editing?.name}` : "Add a subscription"}</DialogTitle>
-            <DialogDescription className="text-[13px] text-white/40">
-              {isEdit ? "Update the details — your totals recalculate instantly." : isAuthenticated ? "Enter what you pay. It will sync encrypted to your account." : "Enter what you pay. Everything stays on this device by default."}
+            <DialogTitle className="text-[22px]">{isEdit ? `Edit ${editing?.name}` : "Add a subscription"}</DialogTitle>
+            <DialogDescription>
+              {isEdit
+                ? "Update the details — your totals recalculate instantly."
+                : isAuthenticated
+                  ? "Enter what you pay. It will sync encrypted to your account."
+                  : "Enter what you pay. Everything stays on this device by default."}
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5" noValidate>
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="sub-name" className="text-white/70">Service name</Label>
-                <Input id="sub-name" placeholder="Netflix, ChatGPT, gym…" autoComplete="off" maxLength={80} aria-invalid={!!errors.name} {...register("name")} className="h-11 rounded-full border-white/10 bg-black/20 text-white placeholder:text-white/30" />
+                <Label htmlFor="sub-name">Service name</Label>
+                <Input id="sub-name" placeholder="Netflix, ChatGPT, gym…" autoComplete="off" maxLength={80} aria-invalid={!!errors.name} {...register("name")} className="h-11" />
                 <FieldError message={errors.name?.message} />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="sub-cost" className="text-white/70">Cost ({currency})</Label>
+                <Label htmlFor="sub-cost">Cost ({currency})</Label>
                 <div className="relative">
-                  <Input id="sub-cost" type="number" inputMode="decimal" step="0.01" min="0" placeholder="9.99" className="font-num h-11 rounded-full border-white/10 bg-black/20 pr-24 text-white placeholder:text-white/30" aria-invalid={!!errors.cost} {...register("cost")} />
+                  <Input
+                    id="sub-cost"
+                    type="number"
+                    inputMode="decimal"
+                    step="0.01"
+                    min="0"
+                    placeholder="9.99"
+                    className="font-num h-11 pr-24"
+                    aria-invalid={!!errors.cost}
+                    {...register("cost")}
+                  />
                   {preview !== null && (
-                    <span className="font-num pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/10 px-2 py-1 text-[11px] text-white/60">≈{formatMoney(preview, currency)}/mo</span>
+                    <span className="font-num pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-accent-soft px-2 py-1 text-[11px] font-medium text-accent">
+                      ≈{formatMoney(preview, currency)}/mo
+                    </span>
                   )}
                 </div>
                 <FieldError message={errors.cost?.message} />
@@ -111,7 +125,7 @@ export function SubscriptionDialog({ open, onOpenChange, editing }: { open: bool
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label className="text-white/70">Billing cycle</Label>
+                <Label>Billing cycle</Label>
                 <Controller
                   control={control}
                   name="cycle"
@@ -124,7 +138,11 @@ export function SubscriptionDialog({ open, onOpenChange, editing }: { open: bool
                           role="radio"
                           aria-checked={field.value === cycle}
                           onClick={() => field.onChange(cycle)}
-                          className={`h-10 rounded-full border px-4 text-[13px] font-medium transition-all duration-200 active:scale-[0.98] ${field.value === cycle ? "border-white bg-white text-black shadow-lg" : "border-white/10 bg-white/[0.04] text-white/60 hover:bg-white/[0.08] hover:text-white"}`}
+                          className={`h-10 rounded-full border px-4 text-[13px] font-medium transition-all duration-200 active:scale-[0.98] ${
+                            field.value === cycle
+                              ? "border-primary bg-primary text-primary-foreground shadow-xs"
+                              : "border-border bg-card text-muted-foreground hover:border-border-strong hover:text-foreground"
+                          }`}
                         >
                           {CYCLE_LABELS[cycle]}
                         </button>
@@ -136,16 +154,16 @@ export function SubscriptionDialog({ open, onOpenChange, editing }: { open: bool
               </div>
 
               <div className="space-y-2">
-                <Label className="text-white/70">Category</Label>
+                <Label>Category</Label>
                 <Controller
                   control={control}
                   name="category"
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="h-11 rounded-full border-white/10 bg-black/20 text-white" aria-invalid={!!errors.category}>
+                      <SelectTrigger className="h-11 rounded-full" aria-invalid={!!errors.category}>
                         <SelectValue placeholder="Pick one" />
                       </SelectTrigger>
-                      <SelectContent className="rounded-xl border-white/10 bg-[#121f22]/90 backdrop-blur-xl">
+                      <SelectContent className="rounded-xl">
                         {CATEGORIES.map((c) => (
                           <SelectItem key={c.id} value={c.id}>
                             <span className="flex items-center gap-2">
@@ -164,21 +182,23 @@ export function SubscriptionDialog({ open, onOpenChange, editing }: { open: bool
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="sub-date" className="text-white/70">Next billing date</Label>
-                <Input id="sub-date" type="date" {...register("startDate")} className="h-11 rounded-full border-white/10 bg-black/20 text-white" />
-                <p className="text-[11px] text-white/30">Powers “upcoming payments” — optional.</p>
+                <Label htmlFor="sub-date">Next billing date</Label>
+                <Input id="sub-date" type="date" {...register("startDate")} className="h-11" />
+                <p className="text-[11px] text-muted-foreground">Powers “upcoming payments” — optional.</p>
                 <FieldError message={errors.startDate?.message} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="sub-notes" className="text-white/70">Note</Label>
-                <Input id="sub-notes" placeholder="Shared with family, cancel after June…" maxLength={280} {...register("notes")} className="h-11 rounded-full border-white/10 bg-black/20 text-white placeholder:text-white/30" />
+                <Label htmlFor="sub-notes">Note</Label>
+                <Input id="sub-notes" placeholder="Shared with family, cancel after June…" maxLength={280} {...register("notes")} className="h-11" />
                 <FieldError message={errors.notes?.message} />
               </div>
             </div>
 
             <DialogFooter className="pt-2">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-11 rounded-full border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.08]">Cancel</Button>
-              <Button type="submit" loading={isSubmitting} className="h-11 rounded-full bg-white px-6 text-black hover:bg-white/90 font-semibold">
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-11 rounded-full">
+                Cancel
+              </Button>
+              <Button type="submit" loading={isSubmitting} className="h-11 rounded-full px-6">
                 {isEdit ? "Save changes" : "Add subscription"}
               </Button>
             </DialogFooter>
@@ -191,5 +211,5 @@ export function SubscriptionDialog({ open, onOpenChange, editing }: { open: bool
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p role="alert" className="text-[11px] font-medium text-red-300">{message}</p>;
+  return <p role="alert" className="text-[11px] font-medium text-destructive">{message}</p>;
 }

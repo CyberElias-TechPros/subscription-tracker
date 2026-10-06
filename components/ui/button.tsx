@@ -14,16 +14,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        solid: "bg-primary text-primary-foreground hover:brightness-110 shadow-sm",
-        outline: "border border-border bg-transparent hover:bg-secondary/60",
-        ghost: "bg-transparent hover:bg-secondary/70",
-        destructive: "bg-destructive text-destructive-foreground hover:brightness-110",
+        solid: "bg-primary text-primary-foreground shadow-xs hover:shadow-sm hover:brightness-[1.08] dark:hover:brightness-110",
+        outline: "border border-border bg-card text-foreground shadow-xs hover:border-border-strong hover:bg-secondary",
+        ghost: "bg-transparent text-muted-foreground hover:bg-secondary hover:text-foreground",
+        destructive: "bg-destructive text-destructive-foreground shadow-xs hover:brightness-110",
         soft: "bg-accent-soft text-accent hover:bg-accent hover:text-accent-foreground",
       },
       size: {
         sm: "h-8 px-3 text-xs [&_svg]:size-3.5",
         md: "h-10 px-4 [&_svg]:size-4",
-        lg: "h-11 px-6 text-base [&_svg]:size-[1.1rem]",
+        lg: "h-11 px-5 text-[14px] [&_svg]:size-[1.05rem]",
         icon: "size-9 [&_svg]:size-4",
         "icon-sm": "size-7 rounded-md [&_svg]:size-3.5",
       },
