@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
+import "@fontsource/instrument-serif/400.css"
+import "@fontsource/instrument-serif/400-italic.css"
 import "./globals.css"
 import { Providers, AppToaster } from "@/components/providers"
 import { TrackerProvider } from "@/components/tracker-provider"
@@ -53,8 +55,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#faf8f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a1214" },
+    { media: "(prefers-color-scheme: light)", color: "#faf9f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#191f21" },
   ],
 }
 
@@ -62,8 +64,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable} dark`}>
-      <body className="min-h-dvh bg-[#0a1214] text-white antialiased selection:bg-emerald-400/20">
+    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className="min-h-dvh bg-background font-sans text-foreground antialiased">
         <a href="#main" className="skip-link">
           Skip to content
         </a>

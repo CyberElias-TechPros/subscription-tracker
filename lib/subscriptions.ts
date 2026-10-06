@@ -59,15 +59,15 @@ export interface Category {
 }
 
 export const CATEGORIES: Category[] = [
-  { id: "streaming", label: "Streaming", color: "#f87171" },
-  { id: "music", label: "Music", color: "#a78bfa" },
-  { id: "software", label: "Software", color: "#60a5fa" },
-  { id: "ai", label: "AI Tools", color: "#2dd4bf" },
-  { id: "gaming", label: "Gaming", color: "#4ade80" },
-  { id: "news", label: "News", color: "#fbbf24" },
-  { id: "fitness", label: "Fitness", color: "#f472b6" },
-  { id: "food", label: "Food", color: "#fb923c" },
-  { id: "other", label: "Other", color: "#94a3b8" },
+  { id: "streaming", label: "Streaming", color: "#E5484D" },
+  { id: "music", label: "Music", color: "#8E63D3" },
+  { id: "software", label: "Software", color: "#3E8FE0" },
+  { id: "ai", label: "AI Tools", color: "#12A594" },
+  { id: "gaming", label: "Gaming", color: "#46A758" },
+  { id: "news", label: "News", color: "#D68700" },
+  { id: "fitness", label: "Fitness", color: "#E5457F" },
+  { id: "food", label: "Food", color: "#E2682B" },
+  { id: "other", label: "Other", color: "#7C8B99" },
 ]
 
 export const DEFAULT_CATEGORY_ID = "other"

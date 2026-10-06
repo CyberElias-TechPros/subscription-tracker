@@ -1,16 +1,17 @@
-# Subscription Tracker — Obsidian Ledger
+# Subscription Tracker — Paper & Ink Ledger
 
-**Know what your subscriptions really cost.** Premium, immersive, private dashboard for recurring bills with optional cloud sync.
+**Know what your subscriptions really cost.** A precise, private dashboard for recurring bills with optional cloud sync.
 
-> A world-class digital product — cinematic visuals, fluid motion, tactile interactions, and meticulous craft. Built for people who hate surprise charges.
+> An editorial fintech design language — warm paper, ink type, one confident viridian accent, and a receipt you can feel. Built for people who hate surprise charges.
 
 ## ✨ Experience
 
-- **Cinematic hero** — layered aurora, grain, parallax, magnetic CTAs, scroll-driven blur
-- **Obsidian Ledger design system** — ink blacks, teal depth, emerald signal, glassmorphism, depth, micro-interactions
-- **Alive interface** — cursor glow (desktop), magnetic buttons, 3D tilt on receipt, hover lifts, spring animations via Framer Motion
+- **Editorial hero** — high-contrast serif display (Instrument Serif) over fine paper grid and grain, gentle scroll parallax
+- **Paper & Ink design system** — warm paper surfaces, ink typography, hairlines and soft layered shadows instead of neon glass
+- **Light-first with deep-ink dark theme** — both themes fully tokenized (oklch), follows the system
+- **Alive interface** — cursor light (desktop), 3D tilt on the receipt, hover lifts, calm spring choreography via Framer Motion
 - **Bento features** — editorial grid showcasing true monthly math, real cash-flow, private-by-design, edge sync
-- **Dashboard** — glass cards, backdrop blur, animated count-ups, interactive donut with hover states, horizon chart with tooltips
+- **Dashboard** — paper cards, animated count-ups, interactive donut with hover states, horizon chart with tooltips
 - **Accessibility** — keyboard nav, visible focus, `prefers-reduced-motion` disables ambient motion, semantic landmarks, skip link
 
 ## 🧮 What it does
@@ -48,26 +49,26 @@ Cloudflare Worker — Hono API
 
 ```
 app/
-├── layout.tsx — dark-first, cursor glow, providers
-├── page.tsx — cinematic hero + bento + tracker + FAQ + CTA
-├── globals.css — premium tokens, grain, aurora, motion system
+├── layout.tsx — light-first (system theme), cursor light, providers
+├── page.tsx — editorial hero + bento + tracker + FAQ + CTA
+├── globals.css — Paper & Ink tokens, grain, receipt system, motion
 ├── sitemap.ts, robots.ts, manifest.ts, opengraph-image.tsx
 components/
-├── cinematic-hero.tsx — parallax, scroll blur, floating preview
-├── features-bento.tsx — editorial bento grid
+├── cinematic-hero.tsx — editorial hero, paper grid, product preview
+├── features-bento.tsx — editorial bento grid, category tints
 ├── tracker-app.tsx — orchestrator
-├── stats-console.tsx — glass, glow, burn rate
-├── receipt-card.tsx — 3D tilt, paper texture
+├── stats-console.tsx — paper console, burn rate, insights
+├── receipt-card.tsx — 3D tilt, perforated paper receipt
 ├── horizon-chart.tsx — animated bars, tooltips
 ├── spend-donut.tsx — interactive SVG, hover states
-├── ledger.tsx — glass, search, filters
+├── ledger.tsx — hairline table, search, filters
 ├── upcoming-payments.tsx — urgency, timeline
-├── site-header.tsx — premium, auth state, sync indicator
+├── site-header.tsx — hairline nav, auth state, sync indicator
 ├── site-footer.tsx — operational status, trust
-├── auth-dialog.tsx — glass, ambient glow
+├── auth-dialog.tsx — paper dialog
 ├── subscription-dialog.tsx — premium form
 ├── settings-dialog.tsx — cloud sync status
-├── cursor-glow.tsx — desktop-only trailing glow
+├── cursor-glow.tsx — desktop-only cursor light
 ├── scroll-reveal.tsx — intersection + framer-motion
 └── ui/* — Radix primitives, button variants
 lib/
@@ -214,28 +215,43 @@ npm run dev # local with --persist
 npx tsc --noEmit # typecheck
 ```
 
-## 🎨 Design System
+## 🎨 Design System — "Paper & Ink Ledger"
+
+An editorial fintech language: warm paper, ink type, one confident viridian
+accent, hairlines and soft shadows. Light-first with a deep-ink dark theme;
+both are fully tokenized in `app/globals.css`.
 
 ### Tokens
 
-- **Background** — oklch(0.14 0.018 195) obsidian
-- **Card** — oklch(0.18 0.020 190) with 84% opacity glass
-- **Accent** — oklch(0.82 0.145 158) emerald signal
-- **Border** — white 8% opacity
-- **Radius** — 0.875rem, pill for actions, 20px for cards
-- **Typography** — Geist Sans (display), Geist Mono (numerals, tabular)
-- **Motion** — [0.22, 1, 0.36, 1] — smooth, spring-like
+| Role | Light | Dark |
+| --- | --- | --- |
+| Background / paper | `oklch(0.981 0.006 90)` | `oklch(0.175 0.014 200)` |
+| Card | white | `oklch(0.215 0.015 200)` |
+| Ink / foreground | `oklch(0.23 0.018 200)` | `oklch(0.93 0.008 160)` |
+| Primary (buttons) | ink | paper |
+| Accent (viridian) | `oklch(0.52 0.11 163)` | `oklch(0.80 0.12 163)` |
+| Border (hairline) | `oklch(0.905 0.008 90)` | `oklch(0.29 0.013 200)` |
+| Warning / destructive | deep amber / red | light amber / red |
+
+- **Radius** — 0.75rem base, pills for actions, 16–24px for cards
+- **Typography** — Instrument Serif (display), Geist Sans (UI), Geist Mono (numerals, tabular)
+- **Shadows** — five layered steps (`--shadow-xs` → `--shadow-xl`), deeper in dark
+- **Motion** — `[0.22, 1, 0.36, 1]` — smooth, spring-like, 150–900ms
 
 ### Effects
 
-- Aurora drift (42s + 55s alternate)
-- Grain via SVG turbulence
-- Glass blur 20px + saturate 1.2
-- Card hover lift + shadow + border glow
-- Magnetic buttons (pointer fine only)
-- Cursor glow trailing (desktop, respects reduced-motion)
+- Paper grid + paper dots (masked radial fades)
+- Grain via SVG turbulence (multiply on light, soft-light on dark)
+- Hairline borders + soft shadow lifts on hover
+- Cursor light — accent-tinted glow (desktop, respects reduced-motion)
 - Scroll reveals with blur → sharp
-- 3D tilt on receipt (preserve-3d)
+- 3D tilt on the paper receipt (preserve-3d, reduced-motion aware)
+- Perforated receipt: zigzag tear tabs, tear lines, barcode — always paper, in both themes
+
+### Data-viz palette
+
+Nine category colors (`lib/subscriptions.ts`), tuned for contrast on both
+paper and ink surfaces; the accent marks the heaviest month and key states.
 
 ## 🔍 SEO
 
@@ -250,7 +266,7 @@ npx tsc --noEmit # typecheck
 
 - Skip link, landmarks, heading hierarchy
 - Keyboard: `n` add, `/` search, dialog focus trap, visible focus ring
-- `prefers-reduced-motion` disables aurora, float, magnetic, cursor glow
+- `prefers-reduced-motion` disables ambient motion, tilt and the cursor light
 - Touch targets 44px+, no hover dependency for critical info
 - Contrast AAA for numerals, AA for body
 

@@ -1,13 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { ThemeProvider, useTheme } from "next-themes"
+import { ThemeProvider } from "next-themes"
 import { Toaster } from "sonner"
 import { AuthProvider } from "@/hooks/use-auth"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <AuthProvider>{children}</AuthProvider>
     </ThemeProvider>
   )
@@ -15,15 +15,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
 /** Mounted once so sonner toasts match the active theme. */
 export function AppToaster() {
-  const { resolvedTheme } = useTheme()
   return (
     <Toaster
-      theme={resolvedTheme === "light" ? "light" : "dark"}
       position="bottom-right"
       closeButton
+      offset={16}
       toastOptions={{
         classNames: {
-          toast: "!rounded-[14px] !border !border-white/10 !bg-[#111d1f]/90 !backdrop-blur-xl !text-white !shadow-2xl",
+          toast:
+            "!rounded-xl !border !border-border !bg-popover !text-popover-foreground !shadow-lg !font-sans",
+          title: "!text-[13px] !font-semibold",
+          description: "!text-[12px] !text-muted-foreground",
+          actionButton: "!rounded-lg !bg-primary !text-primary-foreground",
+          cancelButton: "!rounded-lg !bg-secondary !text-secondary-foreground",
+          closeButton: "!border-border !bg-card !text-muted-foreground",
         },
       }}
     />
