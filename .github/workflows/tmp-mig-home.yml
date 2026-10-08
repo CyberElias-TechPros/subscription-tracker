@@ -11,9 +11,9 @@ jobs:
         run: git clone --depth 1 https://x-access-token:${{ secrets.MIGRATION_PAT }}@github.com/CyberElias-TechProS/homecell-connect-hub.git target
       - name: Provision D1 + KV (fresh; old Pain-account IDs unreachable)
         run: |
-          DBID=$(npx -y wrangler@latest d1 create homecell-db --json | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
+          DBID=$(npx -y wrangler@latest d1 create homecell-db | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
           echo "DBID=$DBID"; test -n "$DBID"; echo "DBID=$DBID" >> $GITHUB_ENV
-          KVID=$(npx -y wrangler@latest kv namespace create homecell-cache --json | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
+          KVID=$(npx -y wrangler@latest kv namespace create homecell-cache | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
           echo "KVID=$KVID"; test -n "$KVID"; echo "KVID=$KVID" >> $GITHUB_ENV
       - name: Fill real IDs into worker/wrangler.toml and push back
         run: |

@@ -11,9 +11,9 @@ jobs:
         run: git clone --depth 1 https://x-access-token:${{ secrets.MIGRATION_PAT }}@github.com/CyberElias-TechPros/ai-sms-sorcery.git target
       - name: Provision D1 + KV + queues
         run: |
-          DBID=$(npx -y wrangler@latest d1 create ai_sms_sorcery --json | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
+          DBID=$(npx -y wrangler@latest d1 create ai_sms_sorcery | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
           echo "DBID=$DBID"; test -n "$DBID"; echo "DBID=$DBID" >> $GITHUB_ENV
-          KVID=$(npx -y wrangler@latest kv namespace create ai-sms-sorcery-kv --json | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
+          KVID=$(npx -y wrangler@latest kv namespace create ai-sms-sorcery-kv | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
           echo "KVID=$KVID"; test -n "$KVID"; echo "KVID=$KVID" >> $GITHUB_ENV
           npx -y wrangler@latest queues create sms-dispatch
           npx -y wrangler@latest queues create sms-dispatch-dlq
