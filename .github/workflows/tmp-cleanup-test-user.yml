@@ -1,0 +1,16 @@
+name: tmp-cleanup-test-user
+on: workflow_dispatch
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+    steps:
+      - name: Delete verification test account from invibox-db
+        run: |
+          DBID=$(curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/d1/database" | jq -r '.result[] | select(.name=="invibox-db") | .uuid' | head -1)
+          echo "DB=$DBID"; test -n "$DBID"
+          npx -y wrangler@latest d1 execute invibox-db --remote --command "DELETE FROM sessions WHERE user_id IN (SELECT id FROM users WHERE email='verifyfix08@example.com');"
+          npx -y wrangler@latest d1 execute invibox-db --remote --command "DELETE FROM users WHERE email='verifyfix08@example.com';"
+          npx -y wrangler@latest d1 execute invibox-db --remote --command "SELECT count(*) AS remaining FROM users WHERE email='verifyfix08@example.com';"
